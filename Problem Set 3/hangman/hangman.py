@@ -122,7 +122,6 @@ def hangman(secret_word):
     letters_guessed = []
 
     print_header(secret_word)
-
     print("------------")
 
     while True:
@@ -142,9 +141,11 @@ def hangman(secret_word):
             guesses_left -= 1
 
         print("------------")
+
         if is_word_guessed(secret_word, letters_guessed):
             print("Congratulations, you won")
             break
+
         if guesses_left == 0:
             print("Sorry, you ran out of guesses. The word was " + secret_word + ".")
             break
