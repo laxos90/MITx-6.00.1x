@@ -124,33 +124,30 @@ def hangman(secret_word):
     print_header(secret_word)
 
     print("------------")
-    print("You have " + str(NUMBER_OF_GUESSES) + " guesses left")
-    print("Available letters: " + get_available_letters(letters_guessed))
 
     while True:
-        print("You have " + str(NUMBER_OF_GUESSES) + " guess left")
-        print("Available letters: " + get_available_letters(letters_guessed))
-        letters_guessed.append(input("Please guess a letter: "))
 
-        if letters_guessed[-1] in secret_word:
+        print("You have " + str(guesses_left) + " guess left")
+        print("Available letters: " + get_available_letters(letters_guessed))
+        letter = input("Please guess a letter: ").lower()
+
+        if letter in letters_guessed:
+            print("Oops! You've already guessed that letter: " + get_guessed_word(secret_word, letters_guessed))
+        elif letter in secret_word:
+            letters_guessed.append(letter)
             print('Good guess: ' + get_guessed_word(secret_word, letters_guessed))
         else:
             print('Oops! That letter is not in my word: ' + get_guessed_word(secret_word, letters_guessed))
+            letters_guessed.append(letter)
+            guesses_left -= 1
 
-    # for i in range(8):
-    #     if " _ " not in secret_word:
-    #         print("Congratulations, you won")
-    #     letters_guessed += input("Please guess a letter: ")
-    #     if is_word_guessed(secret_word, letters_guessed) is True:
-    #         print("You have " + str(guesses_left) + " guesses left")
-    #         print("Available letters:   " + str(get_available_letters(letters_guessed)))
-    #         print('Good guess: ' + get_guessed_word(secret_word, letters_guessed))
-    #     else:
-    #         guesses_left -= 1
-    #         print("You have " + str(guesses_left) + " guesses left")
-    #         print("Available letters:   " + str(get_available_letters(letters_guessed)))
-    #         print('Oops! That letter is not in my word:' + get_guessed_word(secret_word, letters_guessed))
-    # return "Sorry, you ran out of guesses. The word was else."
+        print("------------")
+        if is_word_guessed(secret_word, letters_guessed):
+            print("Congratulations, you won")
+            break
+        if guesses_left == 0:
+            print("Sorry, you ran out of guesses. The word was " + secret_word + ".")
+            break
 
 
 def print_header(secret_word):
