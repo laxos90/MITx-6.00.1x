@@ -121,9 +121,8 @@ def hangman(secret_word):
     guesses_left = NUMBER_OF_GUESSES
     letters_guessed = []
 
-    print("Welcome to the game Hangman!")
-    print("I am thinking of a word that is " + str(len(secret_word)) + " letters long")
-
+    print_header(secret_word)
+    
     print("------------")
     print("You have " + str(NUMBER_OF_GUESSES) + " guesses left")
     print("Available letters: " + get_available_letters(letters_guessed))
@@ -143,6 +142,10 @@ def hangman(secret_word):
     #         print('Oops! That letter is not in my word:' + get_guessed_word(secret_word, letters_guessed))
     # return "Sorry, you ran out of guesses. The word was else."
 
+
+def print_header(secret_word):
+    print("Welcome to the game Hangman!")
+    print("I am thinking of a word that is " + str(len(secret_word)) + " letters long")
 
 def main():
     word_list = load_words()
