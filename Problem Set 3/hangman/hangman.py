@@ -122,10 +122,20 @@ def hangman(secret_word):
     letters_guessed = []
 
     print_header(secret_word)
-    
+
     print("------------")
     print("You have " + str(NUMBER_OF_GUESSES) + " guesses left")
     print("Available letters: " + get_available_letters(letters_guessed))
+
+    while True:
+        print("You have " + str(NUMBER_OF_GUESSES) + " guess left")
+        print("Available letters: " + get_available_letters(letters_guessed))
+        letters_guessed.append(input("Please guess a letter: "))
+
+        if letters_guessed[-1] in secret_word:
+            print('Good guess: ' + get_guessed_word(secret_word, letters_guessed))
+        else:
+            print('Oops! That letter is not in my word: ' + get_guessed_word(secret_word, letters_guessed))
 
     # for i in range(8):
     #     if " _ " not in secret_word:
