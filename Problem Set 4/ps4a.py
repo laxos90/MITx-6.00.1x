@@ -155,10 +155,13 @@ def update_hand(hand, word):
     :param hand: dictionary (string -> int)
     :returns: dictionary (string -> int).
     """
-    pass
+    original_hand = hand.copy()
+
+    for letter in word:
+        original_hand[letter] -= 1
+    return original_hand
 
 
-#
 # Problem #3: Test word validity
 #
 def is_valid_word(word, hand, word_list):
@@ -171,7 +174,17 @@ def is_valid_word(word, hand, word_list):
     :returns: True if word is in the word_list and is entirely
     composed of letters in the hand. Otherwise, returns False.
     """
-    pass
+    secondary_hand = hand.copy()
+
+    if word in word_list:
+        for letter in word:
+            secondary_hand[letter] -= 1
+            if secondary_hand[letter] == 0 or -1:
+
+                return False
+        return True
+    else:
+        return False
 
 
 #
