@@ -75,7 +75,18 @@ def get_word_score(word, n):
     :param n: integer (HAND_SIZE; i.e., hand size required for additional points)
     :returns: the score for a word. Assumes the word is a valid word. (int >= 0)
     """
-    pass
+    score = 0
+
+    for letter in word:
+        score += SCRABBLE_LETTER_VALUES[letter]
+
+    score *= len(word)
+
+    if len(word) == n:
+        score += 50
+
+    return score
+
 
 
 #
@@ -93,7 +104,10 @@ def display_hand(hand):
 
     :param hand: dictionary (string -> int)
     """
-    pass
+    for letter in hand.keys():
+        for j in range(hand[letter]):
+            print(letter, end=" ")  # print all on the same line
+    print()  # print an empty line
 
 
 #
@@ -109,7 +123,18 @@ def deal_hand(n):
     :returns: dictionary (string -> int). Returns a random hand containing
     n lowercase letters. At least n/3 the letters in the hand should be VOWELS.
     """
-    pass
+    hand = {}
+    num_vowels = n // 3
+
+    for i in range(num_vowels):
+        x = VOWELS[random.randrange(len(VOWELS))]
+        hand[x] = hand.get(x, 0) + 1
+
+    for i in range(num_vowels, n):
+        x = CONSONANTS[random.randrange(len(CONSONANTS))]
+        hand[x] = hand.get(x, 0) + 1
+
+    return hand
 
 #
 # Problem #2: Update a hand by removing letters
