@@ -11,6 +11,7 @@ from constants import *
 VOWELS = 'aeiou'
 CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
 HAND_SIZE = 7
+n = HAND_SIZE
 
 SCRABBLE_LETTER_VALUES = {
     'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1,
@@ -76,7 +77,6 @@ def get_word_score(word, n):
     :returns: the score for a word. Assumes the word is a valid word. (int >= 0)
     """
     score = 0
-
     for letter in word:
         score += SCRABBLE_LETTER_VALUES[letter]
 
@@ -88,10 +88,6 @@ def get_word_score(word, n):
     return score
 
 
-
-#
-# Problem #2: Make sure you understand how this function works and what it does!
-#
 def display_hand(hand):
     """
     Displays the letters currently in the hand.
@@ -136,6 +132,7 @@ def deal_hand(n):
 
     return hand
 
+
 #
 # Problem #2: Update a hand by removing letters
 #
@@ -177,13 +174,18 @@ def is_valid_word(word, hand, word_list):
     secondary_hand = hand.copy()
 
     if word in word_list:
-        for letter in word:
-            secondary_hand[letter] -= 1
-            if secondary_hand[letter] == 0 or -1:
 
+        for letter in word:
+            if letter not in secondary_hand:
                 return False
+            else:
+                secondary_hand[letter] -= 1
+                if secondary_hand[letter] == -1:
+                    return False
+
         return True
     else:
+
         return False
 
 
@@ -196,7 +198,12 @@ def calculate_hand_len(hand):
     :param hand: dictionary (string-> int)
     :returns: the length (number of letters) in the current hand.
     """
-    pass
+    hand_lenght = 0
+
+    for letter in hand:
+        hand_lenght += hand[letter]
+
+    return hand_lenght
 
 
 def play_hand(hand, word_list, n):
@@ -220,12 +227,34 @@ def play_hand(hand, word_list, n):
     :param word_list: list of lowercase strings
     :param n: integer (HAND_SIZE; i.e., hand size required for additional points)
     """
-    pass
+
+    display_hand(hand)
+    word = input("Enter a word or a single period to indicate you are done playing: ")
+    score_sum = 0
+    new_hand = hand
+
+    while True:
+
+        if is_valid_word(word, new_hand, word_list):
+            score_sum += get_word_score(word, n)
+            print("The total score is " + str(score_sum))
+
+            if calculate_hand_len(hand) == 0 or word == ".":
+                print("The total score is " + str(score_sum))
+                break
+
+            else:
+                display_hand(update_hand(new_hand, word))
+                new_hand = update_hand(new_hand, word)
+                word = input("Enter another word.")
 
 
-#
-# Problem #5: Playing a game
-#
+        else:
+            word = input("Enter a valid word or . ")
+            if word == ".":
+                print("The total score is " + str(score_sum))
+                break
+
 
 def play_game(word_list):
     """
@@ -240,7 +269,25 @@ def play_game(word_list):
     2) When done playing the hand, repeat from step 1    
     :param word_list: list of lowercase strings
     """
-    pass
+    while True:
+
+        arbitrary_game = input(
+            "Write n to play a new random hand, write r to play the last hand again, play e to exit the game: ")
+
+        if arbitrary_game == "n":
+            copy_of_hand = deal_hand(n)
+
+            play_hand(copy_of_hand, word_list, n)
+
+        elif arbitrary_game == "r":
+
+            play_hand(copy_of_hand, word_list, n)
+
+        elif arbitrary_game == "e":
+            break
+        else:
+            print("It was an invalid option")
+            play_game(word_list)
 
 
 def main():
