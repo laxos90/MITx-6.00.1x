@@ -104,6 +104,7 @@ def display_hand(hand):
 
     print()
 
+
 #
 # Problem #2: Make sure you understand how this function works and what it does!
 #
@@ -154,6 +155,7 @@ def update_hand(hand, word):
 
     for letter in word:
         original_hand[letter] -= 1
+
     return original_hand
 
 
