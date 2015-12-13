@@ -17,20 +17,27 @@ def get_computer_chosen_word(hand, word_list, n):
 
     If no words in the word_list can be made from the hand, return None.
 
+    :rtype: object
     :param hand: dictionary (string -> int)
     :param word_list: list (string)
     :param n: integer (HAND_SIZE; i.e., hand size required for additional points)
 
     :returns: string or None
     """
-    best_word = ""
+    valid_words = []
+    word_score = 0
+    computer_word = None
 
     for word in word_list:
-        if is_valid_word(word, hand, word_list) and get_word_score(word, n) > get_word_score(best_word, n):
-            best_word = word
+        if is_valid_word(word, hand, word_list):
+            valid_words.append(word)
 
-    return best_word if best_word else None
+    for word in valid_words:
+        if word_score < get_word_score(word, n):
+            word_score = get_word_score(word, n)
+            computer_word = word
 
+    return computer_word
 
 #
 # Problem #7: Computer plays a hand
@@ -54,36 +61,7 @@ def play_computer_hand(hand, word_list, n):
     :param word_list: list (string)
     :param n: integer (HAND_SIZE; i.e., hand size required for additional points)
     """
-    score = 0
-    while calculate_hand_len(hand):
-        print_current_hand(hand)
-
-        if get_computer_chosen_word(hand, word_list, n) is None:
-            break
-
-        computer_word = get_computer_chosen_word(hand, word_list, n)
-        score += update_and_print_score(score, computer_word, n)
-        hand = update_hand(hand, computer_word)
-        print()
-
-    print_total_score(score)
-
-
-def get_valid_player():
-    while True:
-        player = input(PLAYER_PROMPT)
-        if player == "c" or player == "u":
-            return player
-        else:
-            print(INVALID_COMMAND_MESSAGE)
-
-
-def perform_play(player, hand, word_list, n):
-    if player == "c":
-        play_computer_hand(hand, word_list, n)
-    else:
-        play_hand(hand, word_list, n)
-
+    pass
 
 #
 # Problem #8: Playing a game
@@ -113,19 +91,7 @@ def play_game(word_list):
 
     :param word_list: list (string)
     """
-    action = get_initial_valid_input()
-
-    while action != "e":
-        if action != "n" and action != "r":
-            print(INVALID_COMMAND_MESSAGE)
-        else:
-            if action == "n":
-                hand = deal_hand(HAND_SIZE)
-            player = get_valid_player()
-            perform_play(player, hand, word_list, HAND_SIZE)
-            print()
-
-        action = input(PLAY_GAME_PROMPT)
+    pass
 
 
 def main():
@@ -136,4 +102,4 @@ def main():
 # Build data structures used for entire session and play game
 #
 if __name__ == '__main__':
-    main()
+    # main()
