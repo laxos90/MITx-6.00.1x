@@ -98,11 +98,11 @@ def display_hand(hand):
 
     :param hand: dictionary (string -> int)
     """
-    for letter in hand.keys():
+    for letter in hand:
         for j in range(hand[letter]):
-            print(letter, end=" ")  # print all on the same line
-    print()  # print an empty line
+            print(letter, end=" ")
 
+    print()
 
 #
 # Problem #2: Make sure you understand how this function works and what it does!
