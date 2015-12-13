@@ -77,15 +77,13 @@ def get_word_score(word, n):
     :returns: the score for a word. Assumes the word is a valid word. (int >= 0)
     """
     score = 0
+
     for letter in word:
         score += SCRABBLE_LETTER_VALUES[letter]
 
     score *= len(word)
 
-    if len(word) == n:
-        score += 50
-
-    return score
+    return score + 50 if len(word) == n else score
 
 
 def display_hand(hand):
@@ -182,10 +180,8 @@ def is_valid_word(word, hand, word_list):
                 secondary_hand[letter] -= 1
                 if secondary_hand[letter] == -1:
                     return False
-
         return True
     else:
-
         return False
 
 
