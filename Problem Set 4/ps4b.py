@@ -61,9 +61,46 @@ def play_computer_hand(hand, word_list, n):
     :param word_list: list (string)
     :param n: integer (HAND_SIZE; i.e., hand size required for additional points)
     """
-    pass
+    total_score = 0
+    computer_word = get_computer_chosen_word(hand, word_list, n)
+    print("Current Hand: ", end="")
+    display_hand(hand)
+    total_score += get_word_score(computer_word, n)
 
-#
+    print("\"" + str(computer_word) + "\"" + " earned " + str(get_word_score(computer_word, n)) + " points. Total " +
+          str(total_score) + " points")
+
+    if there_is_no_more_elements_in_hand(update_hand(hand, computer_word)):
+        display_hand(update_hand(hand, computer_word))
+        print("Total score:" + str(total_score) + " points.")
+        return
+
+
+    while True:
+        computer_word = get_computer_chosen_word(hand, word_list, n)
+        hand = update_hand(hand, computer_word)
+
+
+        if get_computer_chosen_word(hand, word_list, n) is None:
+            print("Current Hand: ", end="")
+            display_hand(hand)
+            print("Total score:" + str(total_score) + " points.")
+            break
+        else:
+            print("Current Hand: ", end="")
+            display_hand(hand)
+            print("\"" + str(get_computer_chosen_word(hand, word_list, n)) + "\"" +
+                  " earned " + str(get_word_score(computer_word, n)) + " points. Total " + str(total_score) + " points")
+
+
+def there_is_no_more_elements_in_hand(hand):
+    hand_values_summ = 0
+    for letter in hand:
+        hand_values_summ += hand[letter]
+    return hand_values_summ == 0
+
+
+
 # Problem #8: Playing a game
 #
 #
@@ -103,3 +140,7 @@ def main():
 #
 if __name__ == '__main__':
     # main()
+    word_list = load_words()
+    # play_computer_hand({'a': 1, 'p': 2, 's': 1, 'e': 1, 'l': 1}, word_list, 6)
+    # play_computer_hand({'a': 2, 'c': 1, 'b': 1, 't': 1}, word_list, 5)
+    play_computer_hand({'a': 2, 'e': 2, 'i': 2, 'm': 2, 'n': 2, 't': 2}, word_list, 12)

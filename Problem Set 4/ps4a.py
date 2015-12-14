@@ -171,20 +171,13 @@ def is_valid_word(word, hand, word_list):
     :returns: True if word is in the word_list and is entirely
     composed of letters in the hand. Otherwise, returns False.
     """
-    secondary_hand = hand.copy()
+    letter_frequency = get_frequency_dict(word)
 
-    if word in word_list:
+    for letter in letter_frequency:
+        if hand.get(letter, 0) < letter_frequency[letter]:
+            return False
 
-        for letter in word:
-            if letter not in secondary_hand:
-                return False
-            else:
-                secondary_hand[letter] -= 1
-                if secondary_hand[letter] == -1:
-                    return False
-        return True
-    else:
-        return False
+    return word in word_list
 
 
 #
@@ -196,12 +189,12 @@ def calculate_hand_len(hand):
     :param hand: dictionary (string-> int)
     :returns: the length (number of letters) in the current hand.
     """
-    hand_lenght = 0
+    hand_length = 0
 
     for letter in hand:
-        hand_lenght += hand[letter]
+        hand_length += hand[letter]
 
-    return hand_lenght
+    return hand_length
 
 
 def play_hand(hand, word_list, n):
@@ -225,33 +218,35 @@ def play_hand(hand, word_list, n):
     :param word_list: list of lowercase strings
     :param n: integer (HAND_SIZE; i.e., hand size required for additional points)
     """
-
     display_hand(hand)
     word = input("Enter a word or a single period to indicate you are done playing: ")
-    score_sum = 0
+    score = 0
     new_hand = hand
 
     while True:
-
         if is_valid_word(word, new_hand, word_list):
-            score_sum += get_word_score(word, n)
-            print("The total score is " + str(score_sum))
-
-            if calculate_hand_len(hand) == 0 or word == ".":
-                print("The total score is " + str(score_sum))
+            score += get_word_score(word, n)
+            print_total_score(score)
+            if is_game_finished(hand, word):
+                print_total_score(score)
                 break
-
             else:
                 display_hand(update_hand(new_hand, word))
                 new_hand = update_hand(new_hand, word)
                 word = input("Enter another word.")
-
-
         else:
             word = input("Enter a valid word or . ")
             if word == ".":
-                print("The total score is " + str(score_sum))
+                print_total_score(score)
                 break
+
+
+def print_total_score(score):
+    print("The total score is " + str(score))
+
+
+def is_game_finished(hand, word):
+    return calculate_hand_len(hand) == 0 or word == "."
 
 
 def play_game(word_list):
@@ -268,19 +263,14 @@ def play_game(word_list):
     :param word_list: list of lowercase strings
     """
     while True:
-
         arbitrary_game = input(
             "Write n to play a new random hand, write r to play the last hand again, play e to exit the game: ")
 
         if arbitrary_game == "n":
             copy_of_hand = deal_hand(n)
-
             play_hand(copy_of_hand, word_list, n)
-
         elif arbitrary_game == "r":
-
             play_hand(copy_of_hand, word_list, n)
-
         elif arbitrary_game == "e":
             break
         else:
