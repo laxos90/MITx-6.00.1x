@@ -89,8 +89,11 @@ def play_computer_hand(hand, word_list, n):
         else:
             print("Current Hand: ", end="")
             display_hand(hand)
-            print("\"" + str(get_computer_chosen_word(hand, word_list, n)) + "\"" +
-                  " earned " + str(get_word_score(computer_word, n)) + " points. Total " + str(total_score) + " points")
+            computer_word = get_computer_chosen_word(hand, word_list, n)
+            print("\"" + str(computer_word) + "\"" + " earned " + str(get_word_score(computer_word, n))
+                  + " points.", end="")
+            total_score += get_word_score(computer_word, n)
+            print("Total " + str(total_score) + " points")
 
 
 def there_is_no_more_elements_in_hand(hand):
