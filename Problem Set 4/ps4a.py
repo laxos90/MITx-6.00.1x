@@ -227,26 +227,28 @@ def play_hand(hand, word_list, n):
         if is_valid_word(word, new_hand, word_list):
             score += get_word_score(word, n)
             print_total_score(score)
-            if is_game_finished(hand, word):
-                print_total_score(score)
-                break
-            else:
-                display_hand(update_hand(new_hand, word))
-                new_hand = update_hand(new_hand, word)
-                word = input("Enter another word.")
-        else:
-            word = input("Enter a valid word or . ")
-            if word == ".":
-                print_total_score(score)
-                break
+            new_hand = update_hand(new_hand, word)
+        elif word == ".":
+            print("Goodbye.The total score is " + str(score))
+            break
+
+        if is_game_finished(new_hand, word):
+            print("Goodbye.The total score is " + str(score))
+            break
+
+        display_hand(new_hand)
+        word = input("Enter a valid word or \". \" to indicate you are finished ")
+
+
 
 
 def print_total_score(score):
     print("The total score is " + str(score))
 
 
-def is_game_finished(hand, word):
-    return calculate_hand_len(hand) == 0 or word == "."
+def is_game_finished(new_hand, word):
+    return calculate_hand_len(new_hand) == 0 or word == "."
+
 
 
 def play_game(word_list):
@@ -262,20 +264,22 @@ def play_game(word_list):
     2) When done playing the hand, repeat from step 1    
     :param word_list: list of lowercase strings
     """
+
     while True:
+
         arbitrary_game = input(
             "Write n to play a new random hand, write r to play the last hand again, play e to exit the game: ")
 
-        if arbitrary_game == "n":
-            copy_of_hand = deal_hand(n)
-            play_hand(copy_of_hand, word_list, n)
-        elif arbitrary_game == "r":
-            play_hand(copy_of_hand, word_list, n)
-        elif arbitrary_game == "e":
+        if arbitrary_game == "e":
             break
         else:
-            print("It was an invalid option")
-            play_game(word_list)
+            if arbitrary_game == "n":
+                new_hand = deal_hand(n)
+                play_hand(new_hand, word_list, n)
+            elif arbitrary_game == "r":
+                play_hand(new_hand, word_list, n)
+            else:
+                print("It was an invalid option")
 
 
 def main():

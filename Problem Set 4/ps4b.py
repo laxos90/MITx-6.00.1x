@@ -131,7 +131,45 @@ def play_game(word_list):
 
     :param word_list: list (string)
     """
-    pass
+    times_playing = 0
+
+    while True:
+        arbitrary_game = input(
+            "Write n to play a new random hand, write r to play the last hand again, play e to exit the game: ")
+        if arbitrary_game == "e":
+            break
+        if arbitrary_game != "r" and arbitrary_game != "n":
+            print("Invalid command")
+        elif arbitrary_game == "n" and times_playing == 0:
+            times_playing += 1
+
+        if arbitrary_game == "r" and times_playing < 1:
+            print("You have not played a hand yet. Please play a new hand first!")
+        else:
+            while True:
+                who_plays = input("Enter u to arbitrary_game yourself play, c to have the computer play: ")
+
+                if who_plays != "u" and who_plays != "c":
+                    print("Invalid command")
+                elif who_plays == "u":
+                    if arbitrary_game == "n":
+                        hand = deal_hand(n)
+                        play_hand(hand, word_list, n)
+                        break
+                    elif arbitrary_game == "r":
+                        play_hand(hand, word_list, n)
+                        break
+                elif who_plays == "c":
+                    if arbitrary_game == "n":
+                        hand = deal_hand(n)
+                        play_computer_hand(hand, word_list, n)
+                        break
+                    elif arbitrary_game == "r":
+                        play_computer_hand(hand, word_list, n)
+                        break
+
+
+
 
 
 def main():
@@ -144,6 +182,4 @@ def main():
 if __name__ == '__main__':
     # main()
     word_list = load_words()
-    # play_computer_hand({'a': 1, 'p': 2, 's': 1, 'e': 1, 'l': 1}, word_list, 6)
-    # play_computer_hand({'a': 2, 'c': 1, 'b': 1, 't': 1}, word_list, 5)
-    play_computer_hand({'a': 2, 'e': 2, 'i': 2, 'm': 2, 'n': 2, 't': 2}, word_list, 12)
+    play_game(word_list)
