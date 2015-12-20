@@ -49,28 +49,7 @@ def process(url):
 
 # Problem 1
 
-class NewsStory(object):
-    def __init__(self, guid, title, subject, summary, link):
-        self.guid = guid
-        self.title = title
-        self.subject = subject
-        self.summary = summary
-        self.link = link
-
-    def get_guid(self):
-        return self.guid
-
-    def get_title(self):
-        return self.title
-
-    def get_subject(self):
-        return self.subject
-
-    def get_summary(self):
-        return self.summary
-
-    def get_link(self):
-        return self.link
+# TODO: NewsStory
 
 
 # ======================
@@ -91,81 +70,25 @@ class Trigger(object):
 # Whole Word Triggers
 # Problems 2-5
 
-def replace_punctuation_mark_with_a_space(text):
-    for punctuation_mark in string.punctuation:
-        text = text.replace(punctuation_mark, " ")
-    return text
+# TODO: WordTrigger
 
-
-class WordTrigger(Trigger):
-    def __init__(self, word):
-        self.word = word.lower()
-
-    def is_word_in(self, text):
-        text_witout_punctuation = replace_punctuation_mark_with_a_space(text.lower())
-        text_word = text_witout_punctuation.split()
-        for word in text_word:
-            if word == self.word:
-                return True
-        return False
-
-
-class TitleTrigger(WordTrigger):
-    def evaluate(self, story):
-        return WordTrigger.is_word_in(self, story.get_title())
-
-
-class SubjectTrigger(WordTrigger):
-    def evaluate(self, story):
-        return WordTrigger.is_word_in(self, story.get_subject())
-
-
-class SummaryTrigger(WordTrigger):
-    def evaluate(self, story):
-        return WordTrigger.is_word_in(self, story.get_summary())
+# TODO: TitleTrigger
+# TODO: SubjectTrigger
+# TODO: SummaryTrigger
 
 
 # Composite Triggers
 # Problems 6-8
 
-class NotTrigger(Trigger):
-    def __init__(self, trigger):
-        self.trigger = trigger
-
-    def evaluate(self, story):
-        return not self.trigger.evaluate(story)
-
-
-class AndTrigger(Trigger):
-    def __init__(self, trigger0, trigger1):
-        self.trigger0 = trigger0
-        self.trigger1 = trigger1
-
-    def evaluate(self, story):
-        return self.trigger0.evaluate(story) and self.trigger1.evaluate(story)
-
-
-class OrTrigger(Trigger):
-    def __init__(self, trigger0, trigger1):
-        self.trigger0 = trigger0
-        self.trigger1 = trigger1
-
-    def evaluate(self, story):
-        return self.trigger0.evaluate(story) or self.trigger1.evaluate(story)
+# TODO: NotTrigger
+# TODO: AndTrigger
+# TODO: OrTrigger
 
 
 # Phrase Trigger
 # Question 9
 
-class PhraseTrigger(Trigger):
-    def __init__(self, phrase):
-        self.phrase = phrase
-
-    def evaluate(self, story):
-        is_phrase_in_title = self.phrase in story.get_title()
-        is_phrase_in_subject = self.phrase in story.get_subject()
-        is_phrase_in_summary = self.phrase in story.get_summary()
-        return is_phrase_in_title or is_phrase_in_subject or is_phrase_in_summary
+# TODO: PhraseTrigger
 
 
 # ======================
@@ -180,14 +103,9 @@ def filter_stories(stories, trigger_list):
 
     Returns: a list of only the stories for which a trigger in trigger_list fires.
     """
-    filtered_stories = []
-
-    for story in stories:
-        for trigger in trigger_list:
-            if trigger.evaluate(story) and story not in filtered_stories:
-                filtered_stories.append(story)
-
-    return filtered_stories
+    # TODO: Problem 10
+    # This is a placeholder (we're just returning all the stories, with no filtering)
+    return stories
 
 
 # ======================
@@ -210,25 +128,7 @@ def make_trigger(trigger_map, trigger_type, parameters, name):
 
     :returns a new instance of a trigger (ex: TitleTrigger, AndTrigger).
     """
-    trigger = None
-    if trigger_type == "TITLE":
-        trigger = TitleTrigger(parameters[0])
-    elif trigger_type == "SUBJECT":
-        trigger = SubjectTrigger(parameters[0])
-    elif trigger_type == "SUMMARY":
-        trigger = SummaryTrigger(parameters[0])
-    elif trigger_type == "NOT":
-        trigger = NotTrigger(trigger_map[parameters[0]])
-    elif trigger_type == "AND":
-        trigger = AndTrigger(trigger_map[parameters[0]], trigger_map[parameters[1]])
-    elif trigger_type == "OR":
-        trigger = OrTrigger(trigger_map[parameters[0]], trigger_map[parameters[1]])
-    elif trigger_type == "PHRASE":
-        trigger = PhraseTrigger(" ".join(parameters))
-
-    trigger_map[name] = trigger
-    return trigger
-
+    # TODO: Problem 11
 
 def read_trigger_config(file_name):
     """
@@ -281,8 +181,11 @@ def main_thread(master):
         t3 = PhraseTrigger("Election")
         t4 = OrTrigger(t2, t3)
         trigger_list = [t1, t4]
+
+
+        # TODO: Problem 11
         # After implementing makeTrigger, uncomment the line below:
-        trigger_list = read_trigger_config("triggers.txt")
+        # triggerlist = readTriggerConfig("triggers.txt")
 
         # **** from here down is about drawing ****
         frame = Frame(master)
