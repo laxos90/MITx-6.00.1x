@@ -114,8 +114,15 @@ class TitleTrigger(WordTrigger):
         return WordTrigger.is_word_in(self, story.get_title())
 
 
-# TODO: SubjectTrigger
-# TODO: SummaryTrigger
+class SubjectTrigger(WordTrigger):
+    def evaluate(self, story):
+        return WordTrigger.is_word_in(self, story.get_subject())
+
+
+class SummaryTrigger(WordTrigger):
+    def evaluate(self, story):
+        return WordTrigger.is_word_in(self, story.get_summary())
+
 
 
 # Composite Triggers
