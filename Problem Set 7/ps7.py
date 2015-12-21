@@ -124,7 +124,6 @@ def make_trigger(trigger_map, trigger_type, parameters, name):
     :param parameters: list of strings with the inputs to the trigger constructor (ex: ["world"])
     :param name: a string representing the name of the new trigger (ex: "t1")
 
-    Modifies trigger_map, adding a new key-value pair for this trigger.
 
     :returns a new instance of a trigger (ex: TitleTrigger, AndTrigger).
     """
