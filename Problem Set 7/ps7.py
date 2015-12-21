@@ -90,8 +90,22 @@ class Trigger(object):
 
 # Whole Word Triggers
 # Problems 2-5
+class WordTrigger(Trigger):
+    def __init__(self, word):
+        self.word = word
 
-# TODO: WordTrigger
+    def is_word_in(self, text):
+        lowercase_text = text.lower()
+        text_without_punctuation = replace_punctuation_with_spaces(lowercase_text)
+        words = text_without_punctuation.split()
+        return self.word in words
+
+
+def replace_punctuation_with_spaces(text):
+    for punctuation in string.punctuation:
+        text = text.replace(punctuation, " ")
+
+    return text
 
 # TODO: TitleTrigger
 # TODO: SubjectTrigger
