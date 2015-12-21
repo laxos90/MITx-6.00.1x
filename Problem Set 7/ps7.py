@@ -92,12 +92,13 @@ class Trigger(object):
 # Problems 2-5
 class WordTrigger(Trigger):
     def __init__(self, word):
-        self.word = word
+        self.word = word.lower()
 
     def is_word_in(self, text):
         lowercase_text = text.lower()
         text_without_punctuation = replace_punctuation_with_spaces(lowercase_text)
         words = text_without_punctuation.split()
+
         return self.word in words
 
 
@@ -107,7 +108,12 @@ def replace_punctuation_with_spaces(text):
 
     return text
 
-# TODO: TitleTrigger
+
+class TitleTrigger(WordTrigger):
+    def evaluate(self, story):
+        return WordTrigger.is_word_in(self, story.get_title())
+
+
 # TODO: SubjectTrigger
 # TODO: SummaryTrigger
 
