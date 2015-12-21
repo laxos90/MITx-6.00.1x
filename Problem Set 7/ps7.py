@@ -124,11 +124,15 @@ class SummaryTrigger(WordTrigger):
         return WordTrigger.is_word_in(self, story.get_summary())
 
 
-
 # Composite Triggers
 # Problems 6-8
+class NotTrigger(Trigger):
+    def __init__(self, trigger):
+        self.trigger = trigger
 
-# TODO: NotTrigger
+    def evaluate(self, story):
+        return not self.trigger.evaluate(story)
+
 # TODO: AndTrigger
 # TODO: OrTrigger
 
